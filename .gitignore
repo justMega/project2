@@ -16,3 +16,9 @@ shapes-dataset/2D_Geometric_Shapes_Dataset/
 # ---------------- misc
 __pycache__/
 .DS_Store
+
+# ---------------- Vivado / Vitis temporary files (any folder)
+.Xil/
+*.jou
+*.str
+*.logfile

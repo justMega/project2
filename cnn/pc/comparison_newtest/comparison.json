@@ -1,0 +1,135 @@
+{
+  "nets": [
+    "cnn"
+  ],
+  "metrics": {
+    "cnn": {
+      "n_images": 12000,
+      "n_valid": 12000,
+      "failed_replies": 0,
+      "accuracy": 0.9993333333333333,
+      "misclassified": 8,
+      "per_class_accuracy": {
+        "circle": 1.0,
+        "square": 1.0,
+        "fig_eight": 0.9995,
+        "rectangle": 0.9985,
+        "triangle": 0.999,
+        "elipse": 0.999
+      },
+      "confusion": [
+        [
+          2000,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2000,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1999,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          3,
+          0,
+          1997,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1998,
+          2
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          1,
+          1998
+        ]
+      ],
+      "latency_us": {
+        "mean": 1402.2980930000003,
+        "std": 0.060709643805580374,
+        "min": 1402.28,
+        "max": 1402.778
+      },
+      "latency_cycles": 140229.80930000002,
+      "accel_throughput_img_s": 713.1151393500467,
+      "cpu_prep_us": 164.16811675,
+      "uart_rx_ms": 9.012,
+      "uart_theoretical_ms": 9.015,
+      "pc_round_trip_ms": 14.6768075,
+      "end_to_end_throughput_img_s": 68.13470845073086,
+      "uart_share_of_round_trip": 0.6140299925579865,
+      "resources_design": {
+        "lut": {
+          "used": 11950.0,
+          "available": 53200.0,
+          "pct": 22.462406015037594
+        },
+        "ff": {
+          "used": 14272.0,
+          "available": 106400.0,
+          "pct": 13.413533834586467
+        },
+        "bram": {
+          "used": 46.5,
+          "available": 140.0,
+          "pct": 33.214285714285715
+        },
+        "dsp": {
+          "used": 102.0,
+          "available": 220.0,
+          "pct": 46.36363636363637
+        }
+      },
+      "resources_ip": {
+        "instance": "ds_cnn_0",
+        "lut": 11110.0,
+        "ff": 13446.0,
+        "bram": 46.5,
+        "dsp": 102.0
+      },
+      "power": {
+        "total_w": 1.793,
+        "static_w": 0.15,
+        "ip_w": 0.374,
+        "ip_instance": "ds_cnn_0",
+        "ps7_w": 1.261
+      },
+      "energy_ip_mj": 0.5244594867820002,
+      "energy_chip_mj": 2.5143204807490007
+    }
+  },
+  "conditions": {
+    "Board": "PYNQ-Z2 (Zynq-7020, xc7z020clg400-1), bare-metal application on the ARM Cortex-A9",
+    "Accelerator clock": "100 MHz (FCLK_CLK0)",
+    "Test images": "12,000 images from ../../2D_Geometric_Shapes_Dataset_test (all split), identical for every network",
+    "Image format": "60\u00d760 grayscale, 8 bit, raw pixels sent by the PC",
+    "UART": "4,000,000 baud, 8N1, 3,606-byte request frame, 29-byte reply (theoretical 9.02 ms per image)",
+    "Timing": "accelerator time = ap_start \u2192 ap_done, ARM global timer; UART time measured on the board; round trip measured on the PC",
+    "Resources and power": "Vivado post-implementation reports (power: vectorless estimate)",
+    "Generated": "2026-11-17 13:53"
+  },
+  "agreement": null
+}
