@@ -1,0 +1,113 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2026.1 (lin64) Build 6511674 Tue Jun 16 11:01:26 MDT 2026
+| Date         : Thu Nov 12 11:25:09 2026
+| Host         : jeremy-Latitude-3420 running 64-bit Ubuntu 26.04.1 LTS
+| Command      : report_utilization -hierarchical -file reports/utilization_hier.rpt
+| Design       : design_1_wrapper
+| Device       : xc7z020clg400-1
+| Speed File   : -1
+| Design State : Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++---------------------------------------------------------------------------+----------------------------------------------------------------------------+------------+------------+---------+------+-------+--------+--------+------------+
+|                                  Instance                                 |                                   Module                                   | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs  | RAMB36 | RAMB18 | DSP Blocks |
++---------------------------------------------------------------------------+----------------------------------------------------------------------------+------------+------------+---------+------+-------+--------+--------+------------+
+| design_1_wrapper                                                          |                                                                      (top) |      11950 |      11672 |     148 |  130 | 14272 |      6 |     81 |        102 |
+|   design_1_i                                                              |                                                                   design_1 |      11950 |      11672 |     148 |  130 | 14272 |      6 |     81 |        102 |
+|     ds_cnn_0                                                              |                                                        design_1_ds_cnn_0_0 |      11110 |      10937 |      48 |  125 | 13446 |      6 |     81 |        102 |
+|       inst                                                                |                                                 design_1_ds_cnn_0_0_ds_cnn |      11110 |      10937 |      48 |  125 | 13446 |      6 |     81 |        102 |
+|         (inst)                                                            |                                                 design_1_ds_cnn_0_0_ds_cnn |         29 |         28 |       0 |    1 |    90 |      0 |      0 |          0 |
+|         control_s_axi_U                                                   |                                   design_1_ds_cnn_0_0_ds_cnn_control_s_axi |        145 |        113 |      32 |    0 |   154 |      0 |      0 |          0 |
+|           (control_s_axi_U)                                               |                                   design_1_ds_cnn_0_0_ds_cnn_control_s_axi |         77 |         77 |       0 |    0 |   122 |      0 |      0 |          0 |
+|           int_logits_out                                                  |                               design_1_ds_cnn_0_0_ds_cnn_control_s_axi_ram |         68 |         36 |      32 |    0 |    32 |      0 |      0 |          0 |
+|         gmem_m_axi_U                                                      |                                      design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi |        575 |        538 |       0 |   37 |   848 |      4 |      0 |          0 |
+|           bus_read                                                        |                                 design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_read |        335 |        335 |       0 |    0 |   517 |      0 |      0 |          0 |
+|             rreq_burst_conv                                               |                      design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_burst_converter |        261 |        261 |       0 |    0 |   415 |      0 |      0 |          0 |
+|               burst_sequential                                            |                     design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_burst_sequential |        261 |        261 |       0 |    0 |   415 |      0 |      0 |          0 |
+|                 (burst_sequential)                                        |                     design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_burst_sequential |        135 |        135 |       0 |    0 |   272 |      0 |      0 |          0 |
+|                 rs_req                                                    |            design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_reg_slice__parameterized0 |        127 |        127 |       0 |    0 |   143 |      0 |      0 |          0 |
+|             rs_rdata                                                      |            design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_reg_slice__parameterized1 |         39 |         39 |       0 |    0 |    71 |      0 |      0 |          0 |
+|           load_unit_0                                                     |                                 design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_load |        240 |        203 |       0 |   37 |   331 |      4 |      0 |          0 |
+|             (load_unit_0)                                                 |                                 design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_load |          3 |          3 |       0 |    0 |   107 |      0 |      0 |          0 |
+|             buff_rdata                                                    |                 design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_fifo__parameterized1 |         57 |         57 |       0 |    0 |    53 |      4 |      0 |          0 |
+|               (buff_rdata)                                                |                 design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_fifo__parameterized1 |         56 |         56 |       0 |    0 |    53 |      0 |      0 |          0 |
+|             bus_wide_gen.rs_rdata_int                                     |                            design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_reg_slice |         43 |         43 |       0 |    0 |    71 |      0 |      0 |          0 |
+|             fifo_rreq                                                     |                 design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_fifo__parameterized0 |         91 |         56 |       0 |   35 |    81 |      0 |      0 |          0 |
+|               U_fifo_srl                                                  |                  design_1_ds_cnn_0_0_ds_cnn_gmem_m_axi_srl__parameterized0 |         73 |         38 |       0 |   35 |    67 |      0 |      0 |          0 |
+|         grp_classify_fu_1322                                              |                                        design_1_ds_cnn_0_0_ds_cnn_classify |        105 |        104 |       0 |    1 |   124 |      0 |      1 |          1 |
+|           (grp_classify_fu_1322)                                          |                                        design_1_ds_cnn_0_0_ds_cnn_classify |         10 |         10 |       0 |    0 |    59 |      0 |      0 |          0 |
+|           grp_classify_Pipeline_FC_I_fu_130                               |                          design_1_ds_cnn_0_0_ds_cnn_classify_Pipeline_FC_I |         89 |         88 |       0 |    1 |    54 |      0 |      1 |          1 |
+|             (grp_classify_Pipeline_FC_I_fu_130)                           |                          design_1_ds_cnn_0_0_ds_cnn_classify_Pipeline_FC_I |         45 |         44 |       0 |    1 |    52 |      0 |      0 |          1 |
+|         grp_conv1_relu_maxpool_fu_637                                     |                              design_1_ds_cnn_0_0_ds_cnn_conv1_relu_maxpool |       1072 |       1058 |       0 |   14 |  1153 |      0 |      0 |         36 |
+|           (grp_conv1_relu_maxpool_fu_637)                                 |                              design_1_ds_cnn_0_0_ds_cnn_conv1_relu_maxpool |         22 |         22 |       0 |    0 |   310 |      0 |      0 |          0 |
+|           grp_conv1_relu_maxpool_Pipeline_C1_OC_fu_275                    |               design_1_ds_cnn_0_0_ds_cnn_conv1_relu_maxpool_Pipeline_C1_OC |        739 |        725 |       0 |   14 |   548 |      0 |      0 |         36 |
+|             (grp_conv1_relu_maxpool_Pipeline_C1_OC_fu_275)                |               design_1_ds_cnn_0_0_ds_cnn_conv1_relu_maxpool_Pipeline_C1_OC |        661 |        647 |       0 |   14 |   533 |      0 |      0 |          0 |
+|           grp_conv1_relu_maxpool_Pipeline_C1_PATCH_fu_235                 |            design_1_ds_cnn_0_0_ds_cnn_conv1_relu_maxpool_Pipeline_C1_PATCH |        311 |        311 |       0 |    0 |   295 |      0 |      0 |          0 |
+|             (grp_conv1_relu_maxpool_Pipeline_C1_PATCH_fu_235)             |            design_1_ds_cnn_0_0_ds_cnn_conv1_relu_maxpool_Pipeline_C1_PATCH |         28 |         28 |       0 |    0 |   293 |      0 |      0 |          0 |
+|             flow_control_loop_pipe_sequential_init_U                      |      design_1_ds_cnn_0_0_ds_cnn_flow_control_loop_pipe_sequential_init_111 |        286 |        286 |       0 |    0 |     2 |      0 |      0 |          0 |
+|         grp_ds_block_gap_7_7_32_32_8_s_fu_1123                            |                      design_1_ds_cnn_0_0_ds_cnn_ds_block_gap_7_7_32_32_8_s |       3542 |       3515 |       0 |   27 |  5484 |      0 |      0 |         17 |
+|           (grp_ds_block_gap_7_7_32_32_8_s_fu_1123)                        |                      design_1_ds_cnn_0_0_ds_cnn_ds_block_gap_7_7_32_32_8_s |        268 |        268 |       0 |    0 |  2970 |      0 |      0 |          0 |
+|           grp_ds_block_gap_7_7_32_32_8_Pipeline_DW_G_DW_T_fu_1114         |     design_1_ds_cnn_0_0_ds_cnn_ds_block_gap_7_7_32_32_8_Pipeline_DW_G_DW_T |       1248 |       1237 |       0 |   11 |  1260 |      0 |      0 |          8 |
+|             (grp_ds_block_gap_7_7_32_32_8_Pipeline_DW_G_DW_T_fu_1114)     |     design_1_ds_cnn_0_0_ds_cnn_ds_block_gap_7_7_32_32_8_Pipeline_DW_G_DW_T |        993 |        984 |       0 |    9 |   959 |      0 |      0 |          8 |
+|           grp_ds_block_gap_7_7_32_32_8_Pipeline_PW_OC_PW_G_fu_1281        |    design_1_ds_cnn_0_0_ds_cnn_ds_block_gap_7_7_32_32_8_Pipeline_PW_OC_PW_G |       1815 |       1799 |       0 |   16 |  1210 |      0 |      0 |          8 |
+|             (grp_ds_block_gap_7_7_32_32_8_Pipeline_PW_OC_PW_G_fu_1281)    |    design_1_ds_cnn_0_0_ds_cnn_ds_block_gap_7_7_32_32_8_Pipeline_PW_OC_PW_G |       1427 |       1411 |       0 |   16 |   745 |      0 |      0 |          0 |
+|           grp_ds_block_gap_7_7_32_32_8_Pipeline_SCALE_fu_1076             |         design_1_ds_cnn_0_0_ds_cnn_ds_block_gap_7_7_32_32_8_Pipeline_SCALE |        243 |        243 |       0 |    0 |    44 |      0 |      0 |          1 |
+|             flow_control_loop_pipe_sequential_init_U                      |      design_1_ds_cnn_0_0_ds_cnn_flow_control_loop_pipe_sequential_init_101 |        226 |        226 |       0 |    0 |     2 |      0 |      0 |          0 |
+|         grp_ds_block_pool_15_15_32_32_8_s_fu_861                          |                   design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_15_15_32_32_8_s |       2695 |       2667 |       0 |   28 |  2938 |      0 |      0 |         16 |
+|           (grp_ds_block_pool_15_15_32_32_8_s_fu_861)                      |                   design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_15_15_32_32_8_s |         20 |         20 |       0 |    0 |   564 |      0 |      0 |          0 |
+|           grp_ds_block_pool_15_15_32_32_8_Pipeline_DW_G_DW_T_fu_1050      |  design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_15_15_32_32_8_Pipeline_DW_G_DW_T |       1316 |       1304 |       0 |   12 |  1263 |      0 |      0 |          8 |
+|             (grp_ds_block_pool_15_15_32_32_8_Pipeline_DW_G_DW_T_fu_1050)  |  design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_15_15_32_32_8_Pipeline_DW_G_DW_T |       1081 |       1071 |       0 |   10 |   976 |      0 |      0 |          8 |
+|           grp_ds_block_pool_15_15_32_32_8_Pipeline_PW_OC_PW_G_fu_1217     | design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_15_15_32_32_8_Pipeline_PW_OC_PW_G |       1339 |       1323 |       0 |   16 |  1103 |      0 |      0 |          8 |
+|             (grp_ds_block_pool_15_15_32_32_8_Pipeline_PW_OC_PW_G_fu_1217) | design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_15_15_32_32_8_Pipeline_PW_OC_PW_G |       1009 |        993 |       0 |   16 |   709 |      0 |      0 |          0 |
+|         grp_ds_block_pool_30_30_16_32_16_s_fu_695                         |                  design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_30_30_16_32_16_s |       2910 |       2893 |       0 |   17 |  2610 |      0 |      0 |         32 |
+|           (grp_ds_block_pool_30_30_16_32_16_s_fu_695)                     |                  design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_30_30_16_32_16_s |         24 |         24 |       0 |    0 |   576 |      0 |      0 |          0 |
+|           grp_ds_block_pool_30_30_16_32_16_Pipeline_DW_T_fu_890           |      design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_30_30_16_32_16_Pipeline_DW_T |       1692 |       1690 |       0 |    2 |  1289 |      0 |      0 |         16 |
+|             (grp_ds_block_pool_30_30_16_32_16_Pipeline_DW_T_fu_890)       |      design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_30_30_16_32_16_Pipeline_DW_T |       1595 |       1593 |       0 |    2 |  1129 |      0 |      0 |         16 |
+|           grp_ds_block_pool_30_30_16_32_16_Pipeline_PW_OC_fu_977          |     design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_30_30_16_32_16_Pipeline_PW_OC |       1166 |       1151 |       0 |   15 |   735 |      0 |      0 |         16 |
+|             (grp_ds_block_pool_30_30_16_32_16_Pipeline_PW_OC_fu_977)      |     design_1_ds_cnn_0_0_ds_cnn_ds_block_pool_30_30_16_32_16_Pipeline_PW_OC |       1047 |       1032 |       0 |   15 |   721 |      0 |      0 |          0 |
+|             flow_control_loop_pipe_sequential_init_U                      |       design_1_ds_cnn_0_0_ds_cnn_flow_control_loop_pipe_sequential_init_77 |        118 |        118 |       0 |    0 |     2 |      0 |      0 |          0 |
+|     axi_smc                                                               |                                                         design_1_axi_smc_0 |        349 |        349 |       0 |    0 |   403 |      0 |      0 |          0 |
+|       inst                                                                |                                                 design_1_axi_smc_0_bd_afc3 |        349 |        349 |       0 |    0 |   403 |      0 |      0 |          0 |
+|         sc_ul                                                             |                                         design_1_axi_smc_0_bd_afc3_sc_ul_0 |        349 |        349 |       0 |    0 |   403 |      0 |      0 |          0 |
+|           inst                                                            |                                 design_1_axi_smc_0_sc_ultralite_v1_0_1_top |        349 |        349 |       0 |    0 |   403 |      0 |      0 |          0 |
+|             gen_axi_full_nxm.sasd_inst                                    |                           design_1_axi_smc_0_sc_ultralite_v1_0_1_sasd_lite |        349 |        349 |       0 |    0 |   401 |      0 |      0 |          0 |
+|               (gen_axi_full_nxm.sasd_inst)                                |                           design_1_axi_smc_0_sc_ultralite_v1_0_1_sasd_lite |        143 |        143 |       0 |    0 |   266 |      0 |      0 |          0 |
+|               gen_read.arctrl_mux                                         |             design_1_axi_smc_0_sc_ultralite_v1_0_1_mux_hot__parameterized4 |         92 |         92 |       0 |    0 |     8 |      0 |      0 |          0 |
+|     axi_smc_1                                                             |                                                       design_1_axi_smc_1_0 |        475 |        371 |     100 |    4 |   390 |      0 |      0 |          0 |
+|       inst                                                                |                                               design_1_axi_smc_1_0_bd_a878 |        475 |        371 |     100 |    4 |   390 |      0 |      0 |          0 |
+|         m00_exit_pipeline                                                 |                         design_1_axi_smc_1_0_m00_exit_pipeline_imp_1I3LT8L |        199 |        196 |       0 |    3 |   143 |      0 |      0 |          0 |
+|           m00_exit                                                        |                                        design_1_axi_smc_1_0_bd_a878_m00e_0 |        199 |        196 |       0 |    3 |   143 |      0 |      0 |          0 |
+|             inst                                                          |                                   design_1_axi_smc_1_0_sc_exit_v1_0_19_top |        199 |        196 |       0 |    3 |   143 |      0 |      0 |          0 |
+|               splitter_inst                                               |                              design_1_axi_smc_1_0_sc_exit_v1_0_19_splitter |        180 |        179 |       0 |    1 |   127 |      0 |      0 |          0 |
+|                 gen_axi3.splitter_inst                                    |                             design_1_axi_smc_1_0_sc_exit_v1_0_19_axi3_conv |        179 |        178 |       0 |    1 |   126 |      0 |      0 |          0 |
+|                   (gen_axi3.splitter_inst)                                |                             design_1_axi_smc_1_0_sc_exit_v1_0_19_axi3_conv |         58 |         58 |       0 |    0 |    56 |      0 |      0 |          0 |
+|                   ar_cmd_reg                                              |                          design_1_axi_smc_1_0_sc_util_v1_0_4_axi_reg_stall |        108 |        108 |       0 |    0 |    61 |      0 |      0 |          0 |
+|         s00_nodes                                                         |                                  design_1_axi_smc_1_0_s00_nodes_imp_NF95JW |        223 |        123 |     100 |    0 |   191 |      0 |      0 |          0 |
+|           s00_ar_node                                                     |                                        design_1_axi_smc_1_0_bd_a878_sarn_0 |         96 |         44 |      52 |    0 |    92 |      0 |      0 |          0 |
+|             inst                                                          |                                   design_1_axi_smc_1_0_sc_node_v1_0_19_top |         96 |         44 |      52 |    0 |    92 |      0 |      0 |          0 |
+|               inst_mi_handler                                             |                            design_1_axi_smc_1_0_sc_node_v1_0_19_mi_handler |         92 |         40 |      52 |    0 |    87 |      0 |      0 |          0 |
+|                 gen_normal_area.inst_fifo_node_payld                      |                                  design_1_axi_smc_1_0_sc_node_v1_0_19_fifo |         92 |         40 |      52 |    0 |    85 |      0 |      0 |          0 |
+|                   gen_xpm_memory_fifo.inst_fifo                           |                        design_1_axi_smc_1_0_sc_util_v1_0_4_xpm_memory_fifo |         92 |         40 |      52 |    0 |    85 |      0 |      0 |          0 |
+|                     gen_mem_rep[0].inst_xpm_memory                        |                                     design_1_axi_smc_1_0_xpm_memory_sdpram |         52 |          0 |      52 |    0 |    63 |      0 |      0 |          0 |
+|                       xpm_memory_base_inst                                |                                       design_1_axi_smc_1_0_xpm_memory_base |         52 |          0 |      52 |    0 |    63 |      0 |      0 |          0 |
+|           s00_r_node                                                      |                                         design_1_axi_smc_1_0_bd_a878_srn_0 |        127 |         79 |      48 |    0 |    99 |      0 |      0 |          0 |
+|             inst                                                          |                   design_1_axi_smc_1_0_sc_node_v1_0_19_top__parameterized0 |        127 |         79 |      48 |    0 |    99 |      0 |      0 |          0 |
+|               inst_mi_handler                                             |            design_1_axi_smc_1_0_sc_node_v1_0_19_mi_handler__parameterized0 |        122 |         74 |      48 |    0 |    94 |      0 |      0 |          0 |
+|                 gen_normal_area.inst_fifo_node_payld                      |                  design_1_axi_smc_1_0_sc_node_v1_0_19_fifo__parameterized0 |        122 |         74 |      48 |    0 |    89 |      0 |      0 |          0 |
+|                   gen_xpm_memory_fifo.inst_fifo                           |        design_1_axi_smc_1_0_sc_util_v1_0_4_xpm_memory_fifo__parameterized0 |        122 |         74 |      48 |    0 |    89 |      0 |      0 |          0 |
+|                     gen_mem_rep[0].inst_xpm_memory                        |                     design_1_axi_smc_1_0_xpm_memory_sdpram__parameterized0 |         48 |          0 |      48 |    0 |    67 |      0 |      0 |          0 |
+|                       xpm_memory_base_inst                                |                       design_1_axi_smc_1_0_xpm_memory_base__parameterized0 |         48 |          0 |      48 |    0 |    67 |      0 |      0 |          0 |
++---------------------------------------------------------------------------+----------------------------------------------------------------------------+------------+------------+---------+------+-------+--------+--------+------------+
+* Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
+
+

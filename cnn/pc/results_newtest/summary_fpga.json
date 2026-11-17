@@ -1,0 +1,80 @@
+{
+  "wall_time_s": 192.03081437999936,
+  "baud": 4000000,
+  "n_images": 12000,
+  "data": "../../2D_Geometric_Shapes_Dataset_test",
+  "split": "all",
+  "cnn": {
+    "net": "cnn",
+    "n": 12000,
+    "errors": 0,
+    "accuracy": 0.9993333333333333,
+    "per_class_accuracy": {
+      "circle": 1.0,
+      "square": 1.0,
+      "fig_eight": 0.9995,
+      "rectangle": 0.9985,
+      "triangle": 0.999,
+      "elipse": 0.999
+    },
+    "confusion": [
+      [
+        2000,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        2000,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1999,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        3,
+        0,
+        1997,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1998,
+        2
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        1,
+        1998
+      ]
+    ],
+    "infer_us_mean": 1402.2980930000003,
+    "infer_us_std": 0.060709643805580374,
+    "infer_us_min": 1402.28,
+    "infer_us_max": 1402.778,
+    "accel_throughput_img_s": 713.1151393500467,
+    "cpu_prep_us_mean": 164.16811675,
+    "uart_rx_ms_mean": 9.012,
+    "pc_round_trip_ms_mean": 14.676806342749764,
+    "end_to_end_throughput_img_s": 68.1347138230786
+  }
+}

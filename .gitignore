@@ -1,0 +1,18 @@
+# ---------------- datasets (72 000 images, regenerated with
+# shapes-dataset/generate_shapes_dataset.py)
+shapes-dataset/2D_Geometric_Shapes_Dataset/
+2D_Geometric_Shapes_Dataset_test/
+*.zip
+
+# ---------------- LaTeX build files (report/)
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# ---------------- misc
+__pycache__/
+.DS_Store

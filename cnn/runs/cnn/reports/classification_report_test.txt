@@ -1,0 +1,14 @@
+Test accuracy: 0.9999
+
+              precision    recall  f1-score   support
+
+      circle     1.0000    1.0000    1.0000      1500
+      square     0.9993    1.0000    0.9997      1500
+   fig_eight     1.0000    1.0000    1.0000      1500
+   rectangle     1.0000    0.9993    0.9997      1500
+    triangle     1.0000    1.0000    1.0000      1500
+      elipse     1.0000    1.0000    1.0000      1500
+
+    accuracy                         0.9999      9000
+   macro avg     0.9999    0.9999    0.9999      9000
+weighted avg     0.9999    0.9999    0.9999      9000
