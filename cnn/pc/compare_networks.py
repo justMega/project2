@@ -159,6 +159,8 @@ def metrics(res, util, hier, power, clock_mhz):
         cpu_prep_us=float(prep_us.mean()),
         uart_rx_ms=float(rx_ms.mean()),
         uart_theoretical_ms=None,
+        request_bytes=int(res["summary"].get("request_bytes", FRAME_BYTES)),
+        uart_rx_theoretical="uart_rx_source" in res["summary"],
         pc_round_trip_ms=float(rtt.mean()),
         end_to_end_throughput_img_s=float(1e3 / rtt.mean()),
         uart_share_of_round_trip=float(rx_ms.mean() / rtt.mean()),
@@ -195,10 +197,13 @@ def write_markdown(nets, M, conditions, agreement, out: Path):
         lambda m: f"{m['latency_us']['mean']/1e3:.3f} ms (± {m['latency_us']['std']:.2f} µs)")
     row("Latency in clock cycles", lambda m: f"{m['latency_cycles']:,.0f}")
     row("Accelerator throughput", lambda m: f"{m['accel_throughput_img_s']:.0f} img/s")
-    row("CPU preprocessing + cache flush", lambda m: f"{m['cpu_prep_us']:.0f} µs")
+    row("CPU preprocessing + cache flush",
+        lambda m: f"{m['cpu_prep_us']:.0f} µs" if m["cpu_prep_us"] > 0 else "not reported")
+    row("Data sent by the PC per image", lambda m: f"{m['request_bytes']:,} bytes")
 
     L += ["", "## Communication overhead (reported separately)", "", hdr, sep]
-    row("UART transfer of one image (board RX)", lambda m: f"{m['uart_rx_ms']:.2f} ms")
+    row("UART transfer of one image (board RX)", lambda m: f"{m['uart_rx_ms']:.2f} ms"
+        + (" (theoretical)" if m["uart_rx_theoretical"] else ""))
     row("PC round trip (send → reply)", lambda m: f"{m['pc_round_trip_ms']:.2f} ms")
     row("UART share of the round trip", lambda m: f"{100*m['uart_share_of_round_trip']:.0f} %")
     row("End-to-end throughput", lambda m: f"{m['end_to_end_throughput_img_s']:.1f} img/s")
@@ -376,16 +381,19 @@ def main():
         "Accelerator clock": f"{args.clock_mhz:.0f} MHz (FCLK_CLK0)",
         "Test images": f"{len(merged):,} images from {args.data} "
                        f"({s0.get('split', 'test')} split), identical for every network",
-        "Image format": f"{IMG_W}×{IMG_H} grayscale, 8 bit, raw pixels sent by the PC",
-        "UART": f"{args.baud:,} baud, 8N1, {FRAME_BYTES:,}-byte request frame, 29-byte reply "
-                f"(theoretical {FRAME_BYTES * 10 / args.baud * 1e3:.2f} ms per image)",
+        "Image format": f"CNN: {IMG_W}×{IMG_H} grayscale, 8 bit, raw pixels sent by the PC"
+                        + ("; SNN: 384 int16 features computed on the PC" if "snn" in nets else ""),
+        "UART": f"{args.baud:,} baud, 8N1; request frame " + ", ".join(
+                    f"{n.upper()} {R[n]['summary'].get('request_bytes', FRAME_BYTES):,} bytes "
+                    f"({R[n]['summary'].get('request_bytes', FRAME_BYTES) * 10 / args.baud * 1e3:.2f} ms)"
+                    for n in nets),
         "Timing": "accelerator time = ap_start → ap_done, ARM global timer; UART time measured "
                   "on the board; round trip measured on the PC",
         "Resources and power": "Vivado post-implementation reports (power: vectorless estimate)",
         "Generated": time.strftime("%Y-%m-%d %H:%M"),
     }
     for n in nets:
-        M[n]["uart_theoretical_ms"] = FRAME_BYTES * 10 / args.baud * 1e3
+        M[n]["uart_theoretical_ms"] = M[n]["request_bytes"] * 10 / args.baud * 1e3
     md = write_markdown(nets, M, conditions, agreement, args.out)
     (args.out / "comparison.json").write_text(json.dumps(
         dict(nets=nets, metrics=M, conditions=conditions, agreement=agreement), indent=2))

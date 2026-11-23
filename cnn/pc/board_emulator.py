@@ -22,6 +22,9 @@ import numpy as np
 IMG = 60
 N_PIX = IMG * IMG
 N_CLASSES = 6
+# inference reply (same as the SNN): 0xA5 <pred> <time_us u32> <6 x i32> 0x5A
+CNN_TO_COMMON = np.array([0, 4, 2, 3, 5, 1])        # CNN order -> alphabetical order
+ERROR_REPLY = bytes([0xA5, 0xFF]) + bytes(4 + 4 * N_CLASSES) + b"\x5A"
 
 
 def read_n(fd, n):
@@ -44,7 +47,9 @@ def main():
         os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
         import tensorflow as tf
         model = tf.keras.models.load_model(args.keras)
-        logit_model = tf.keras.Model(model.inputs, model.get_layer("gap_logits").output)
+        names = [l.name for l in model.layers]
+        last = "fc" if "fc" in names else "gap_logits"   # layer before the softmax
+        logit_model = tf.keras.Model(model.inputs, model.get_layer(last).output)
         lut = ((1024 * np.arange(256) + 127) // 255 - 512).astype(np.float32) / 256.0  # = ARM Q8.8
 
         def predict(px):
@@ -65,13 +70,16 @@ def main():
             net = read_n(master, 1)[0]
             (length,) = struct.unpack("<H", read_n(master, 2))
             if length != N_PIX:
-                os.write(master, bytes([0xA5, net, 1, 0]) + bytes(24) + b"\x5A")
+                os.write(master, ERROR_REPLY)
                 continue
             px = np.frombuffer(read_n(master, N_PIX), dtype=np.uint8)
             csum = read_n(master, 1)[0]
             rx_us = int((time.perf_counter() - t0) * 1e6)
             if csum != int(px.sum()) & 0xFF:
-                os.write(master, bytes([0xA5, net, 2, 0]) + bytes(24) + b"\x5A")
+                if net == 0x7F:
+                    os.write(master, bytes([0xA5, 0x7F, 2]) + bytes(4 + N_PIX) + b"\x5A")
+                else:
+                    os.write(master, ERROR_REPLY)
                 continue
             if net == 0x7F:
                 os.write(master, bytes([0xA5, 0x7F, 0]) + struct.pack("<I", rx_us)
@@ -84,11 +92,14 @@ def main():
                 else:  # dummy: deterministic pseudo-logits
                     logits = np.sin(np.arange(N_CLASSES) + float(px.mean()))
                 infer_ns = int((time.perf_counter() - t1) * 1e9)
-                q = np.clip(np.round(logits * 256), -32768, 32767).astype("<i2")
-                reply = (bytes([0xA5, net, 0, int(np.argmax(logits))])
-                         + struct.pack("<III", infer_ns, 0, rx_us) + q.tobytes() + b"\x5A")
+                q = np.clip(np.round(logits * 256), -32768, 32767).astype(np.int64)
+                common = np.zeros(N_CLASSES, "<i4")
+                common[CNN_TO_COMMON] = q                    # reorder to the common order
+                reply = (bytes([0xA5, int(CNN_TO_COMMON[int(np.argmax(logits))])])
+                         + struct.pack("<I", (infer_ns + 500) // 1000) + common.tobytes()
+                         + b"\x5A")
             else:
-                reply = bytes([0xA5, net, 3, 0]) + bytes(24) + b"\x5A"
+                reply = ERROR_REPLY
             os.write(master, reply)
         except KeyboardInterrupt:
             sys.exit(0)

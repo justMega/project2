@@ -34,8 +34,17 @@ from shapes_common import CLASSES, N_CLASSES, IMG_H, IMG_W, list_split, load_u8 
 N_PIX = IMG_H * IMG_W
 NETS = {"cnn": 0x00, "snn": 0x01}
 NET_ECHO = 0x7F
-STATUS = {0: "OK", 1: "bad length", 2: "bad checksum", 3: "network not in bitstream", 4: "timeout"}
-REPLY_LEN = 29
+STATUS = {0: "OK", 1: "error reply from the board (pred = 0xFF)", 255: "no valid reply"}
+# Echo replies keep their own status codes (vitis/main.c)
+ECHO_STATUS = {0: "OK", 1: "bad length", 2: "bad checksum", 4: "timeout"}
+# Inference reply, same format as the SNN application (see vitis/PROTOCOL.md):
+#   0xA5 <pred> <time_us u32> <6 x logits i32> 0x5A
+REPLY_LEN = 1 + 1 + 4 + 4 * N_CLASSES + 1          # 31 bytes
+PRED_ERROR = 0xFF
+# The reply uses the common class order (alphabetical, as the SNN). Map it back
+# to the CNN order used everywhere on the PC (shapes_common.CLASSES).
+COMMON_CLASSES = ["circle", "elipse", "fig_eight", "rectangle", "square", "triangle"]
+COMMON_TO_CNN = [CLASSES.index(c) for c in COMMON_CLASSES]
 BITS_PER_BYTE = 10          # 8N1
 
 
@@ -64,6 +73,31 @@ def wait_start(ser, deadline: float):
             return
 
 
+def parse_reply(body: bytes, frame_len: int, baud: int) -> dict:
+    """Decode the 30 bytes after 0xA5: <pred> <time_us u32> <6 x i32 logits> 0x5A.
+
+    Returned in the CNN class order. The reply carries no board-side UART or
+    preprocessing time: rx_us is the theoretical wire time of the request
+    (10 bits per byte, 8N1) and prep_ns is 0.
+    """
+    if len(body) != REPLY_LEN - 1 or body[-1] != 0x5A:
+        raise RuntimeError(f"bad reply end byte 0x{body[-1]:02X}")
+    pred_c = body[0]
+    (time_us,) = struct.unpack("<I", body[1:5])
+    logits_c = struct.unpack(f"<{N_CLASSES}i", body[5:5 + 4 * N_CLASSES])
+    rx_us = int(round(frame_len * BITS_PER_BYTE / baud * 1e6))
+    if pred_c == PRED_ERROR:
+        return dict(status=1, pred=-1, infer_ns=0, prep_ns=0, rx_us=rx_us,
+                    logits=np.zeros(N_CLASSES, np.float32))
+    if pred_c >= N_CLASSES:
+        raise RuntimeError(f"bad predicted class {pred_c}")
+    logits = np.zeros(N_CLASSES, np.float32)
+    for k, v in enumerate(logits_c):
+        logits[COMMON_TO_CNN[k]] = v / 256.0                 # Q8.8
+    return dict(status=0, pred=COMMON_TO_CNN[pred_c], infer_ns=time_us * 1000, prep_ns=0,
+                rx_us=rx_us, logits=logits)
+
+
 def infer(ser, net: int, px: np.ndarray, timeout: float = 3.0) -> dict:
     frame = build_frame(net, px)
     ser.reset_input_buffer()
@@ -74,14 +108,9 @@ def infer(ser, net: int, px: np.ndarray, timeout: float = 3.0) -> dict:
     wait_start(ser, deadline)
     body = read_exact(ser, REPLY_LEN - 1, deadline)
     rtt = time.perf_counter() - t0
-    if body[-1] != 0x5A:
-        raise RuntimeError(f"bad reply end byte 0x{body[-1]:02X}")
-    net_r, status, pred, infer_ns, prep_ns, rx_us = struct.unpack("<BBBIII", body[:15])
-    logits = np.array(struct.unpack("<6h", body[15:27]), dtype=np.float32) / 256.0
-    if net_r != net:
-        raise RuntimeError(f"reply for net {net_r}, expected {net}")
-    return dict(status=status, pred=pred, infer_ns=infer_ns, prep_ns=prep_ns,
-                rx_us=rx_us, logits=logits, rtt_s=rtt)
+    r = parse_reply(body, len(frame), ser.baudrate)
+    r["rtt_s"] = rtt
+    return r
 
 
 def echo(ser, px: np.ndarray, timeout: float = 3.0) -> dict:
@@ -126,7 +155,7 @@ def mode_uart_test(args):
             r = echo(ser, px)
             if not r["ok"]:
                 fails += 1
-                print(f"  frame {i}: FAILED (status={STATUS.get(r['status'])}, "
+                print(f"  frame {i}: FAILED (status={ECHO_STATUS.get(r['status'])}, "
                       f"{r['n_bad']} wrong bytes)")
             rx_us.append(r["rx_us"]); rtt.append(r["rtt_s"] * 1e3)
     finally:
@@ -179,8 +208,7 @@ def summarize(name, y, pred, rows, out_dir: Path):
     print(f"accelerator latency     : {s['infer_us_mean']:.1f} us "
           f"(min {s['infer_us_min']:.1f}, max {s['infer_us_max']:.1f})")
     print(f"accelerator throughput  : {s['accel_throughput_img_s']:.0f} img/s")
-    print(f"CPU preprocessing       : {s['cpu_prep_us_mean']:.1f} us")
-    print(f"UART transfer (board RX): {s['uart_rx_ms_mean']:.2f} ms")
+    print(f"UART transfer (theory)  : {s['uart_rx_ms_mean']:.2f} ms")
     print(f"PC round trip           : {s['pc_round_trip_ms_mean']:.2f} ms "
           f"-> {s['end_to_end_throughput_img_s']:.1f} img/s end-to-end")
     print("confusion (rows=true, cols=pred):")
@@ -239,7 +267,10 @@ def mode_eval(args):
     wall = time.perf_counter() - t_start
 
     summary = {"wall_time_s": wall, "baud": args.baud, "n_images": len(paths),
-               "data": str(args.data), "split": args.split}
+               "data": str(args.data), "split": args.split,
+               "request_bytes": len(build_frame(NETS["cnn"], np.zeros(N_PIX, np.uint8))),
+               "reply_bytes": REPLY_LEN,
+               "uart_rx_source": "theoretical wire time (not in the board reply)"}
     for n, rows in results.items():
         y = np.array([r["true"] for r in rows]); pred = np.array([r["pred"] for r in rows])
         summary[n] = summarize(n, y, pred, rows, out_dir)

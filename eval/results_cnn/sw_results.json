@@ -1,0 +1,158 @@
+{
+  "conditions": {
+    "host": "inconnu",
+    "machine": "x86_64",
+    "os": "Linux-7.0.0-43-generic-x86_64-inconnu-with-glibc2.43",
+    "python": "3.14.4",
+    "tensorflow": "2.22.0-rc0",
+    "logical_cpus": 8,
+    "test_set": "/home/jeremy/sdu/Embedded_Systems/assignment2/2D_Geometric_Shapes_Dataset_test",
+    "n_test": 12000,
+    "model": "CNN: Conv3x3(16)+3 depthwise-separable blocks (32)+GAP+Dense(6), 60x60 grayscale input, 4390 parameters (3814 after BN folding)",
+    "model_file": "/home/jeremy/sdu/Embedded_Systems/assignment2/cnn/runs/cnn/models/shape_cnn.keras",
+    "float_inference": "Keras model(x, training=False), eager",
+    "class_order": "circle, elipse, fig_eight, rectangle, square, triangle (as the SNN)",
+    "warmup": 200,
+    "latency_reps": 2000,
+    "throughput_batch": 1024
+  },
+  "preprocessing_us": {
+    "n": 12000,
+    "mean": 293.33598266005845,
+    "std": 40.89328179828585,
+    "median": 282.436000816233,
+    "p5": 271.90370028620237,
+    "p95": 327.05395015000244,
+    "p99": 552.53718068343,
+    "min": 266.64399956644047,
+    "max": 897.5670007203007
+  },
+  "float32": {
+    "n": 12000,
+    "accuracy": 0.9993333333333333,
+    "per_class": {
+      "circle": {
+        "support": 2000,
+        "recall": 1.0,
+        "precision": 1.0,
+        "f1": 1.0
+      },
+      "elipse": {
+        "support": 2000,
+        "recall": 0.999,
+        "precision": 0.9985007496251874,
+        "f1": 0.9987503124218946
+      },
+      "fig_eight": {
+        "support": 2000,
+        "recall": 0.9995,
+        "precision": 0.9995,
+        "f1": 0.9995
+      },
+      "rectangle": {
+        "support": 2000,
+        "recall": 0.9985,
+        "precision": 1.0,
+        "f1": 0.9992494370778084
+      },
+      "square": {
+        "support": 2000,
+        "recall": 1.0,
+        "precision": 0.9985022466300549,
+        "f1": 0.9992505620784412
+      },
+      "triangle": {
+        "support": 2000,
+        "recall": 0.999,
+        "precision": 0.9994997498749375,
+        "f1": 0.9992498124531133
+      }
+    },
+    "confusion": [
+      [
+        2000,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1998,
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        1999,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1997,
+        3,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2000,
+        0
+      ],
+      [
+        0,
+        2,
+        0,
+        0,
+        0,
+        1998
+      ]
+    ]
+  },
+  "fixed_point_model": "no Python bit-exact model; HLS C-simulation (ds_cnn_tb.cpp) agrees with Keras on 100 % of the testbench images",
+  "timing": {
+    "keras_float_threads1": {
+      "batch1_latency_us": {
+        "n": 2000,
+        "mean": 9225.553651507651,
+        "std": 932.5753336291967,
+        "median": 8936.469999753172,
+        "p5": 8507.170099437644,
+        "p95": 11062.463250254948,
+        "p99": 12316.289819991653,
+        "min": 8410.992999415612,
+        "max": 24006.265999560128
+      },
+      "throughput_inf_per_s_batch1024": 2920.0479838835436
+    },
+    "keras_float_threads8": {
+      "batch1_latency_us": {
+        "n": 2000,
+        "mean": 12748.7098484944,
+        "std": 2358.423298342384,
+        "median": 12059.47050038958,
+        "p5": 10845.642750064144,
+        "p95": 17052.703549688882,
+        "p99": 23530.80438037068,
+        "min": 10322.627000277862,
+        "max": 35675.11500114051
+      },
+      "throughput_inf_per_s_batch1024": 4007.5618591224948
+    }
+  },
+  "data_overlap": {
+    "unique_test_images": 12000,
+    "unique_train_images": 60000,
+    "test_images_identical_to_a_train_image": 0
+  }
+}

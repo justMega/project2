@@ -21,22 +21,26 @@ All multi-byte fields are little-endian.
 | 5–3604 | payload | 3600 uint8 pixels |
 | 3605 | checksum | sum of the 3600 payload bytes modulo 256 |
 
-## Board → PC: inference reply (29 bytes)
+## Board → PC: inference reply (31 bytes, same format as the SNN application)
+
+`0xA5 <pred> <time_us u32 LE> <6 logits i32 LE> 0x5A` → 7 + 4 × 6 = 31 bytes.
 
 | Byte | Field | Type |
 |---|---|---|
 | 0 | start | `0xA5` |
-| 1 | net | echo of request |
-| 2 | status | 0 OK, 1 bad length, 2 bad checksum, 3 network not in this bitstream, 4 timeout |
-| 3 | predicted class | uint8 (0 circle, 1 square, 2 fig_eight, 3 rectangle, 4 triangle, 5 elipse) |
-| 4–7 | infer_ns | uint32, accelerator time `ap_start → ap_done` (ARM global timer) |
-| 8–11 | prep_ns | uint32, CPU preprocessing + cache flush |
-| 12–15 | rx_us | uint32, UART reception time measured on the board (first header byte → checksum) |
-| 16–27 | logits[6] | int16, Q8.8 (divide by 256) |
-| 28 | end | `0x5A` |
+| 1 | predicted class | uint8, common class order (alphabetical, as the SNN): 0 circle, 1 elipse, 2 fig_eight, 3 rectangle, 4 square, 5 triangle. `0xFF` = error (bad length, bad checksum, timeout or network not in this bitstream) |
+| 2–5 | time_us | uint32, accelerator time `ap_start → ap_done` in µs (ARM global timer) |
+| 6–29 | logits[6] | int32, same class order as `pred`. CNN: Q8.8 (divide by 256) |
+| 30 | end | `0x5A` |
+
+The firmware converts the CNN's own class order (circle, square, fig_eight, rectangle,
+triangle, elipse, used for training) to the common order before sending; the PC client
+converts it back. The CPU preprocessing time and the board-side UART reception time are
+still measured on the board (printed with `DEBUG_PRINT 1`) but are not in the reply; the
+PC reports the UART time as the theoretical wire time.
 
 ## Board → PC: loopback reply (`net = 0x7F`, 3 609 bytes)
-`0xA5, 0x7F, status, rx_us (uint32), 3600 echoed pixels, 0x5A`. The PC compares the echoed pixels with the sent ones, which tests the link in both directions before any hardware IP is involved.
+`0xA5, 0x7F, status (0 OK, 1 bad length, 2 bad checksum, 4 timeout), rx_us (uint32), 3600 echoed pixels, 0x5A`. The PC compares the echoed pixels with the sent ones, which tests the link in both directions before any hardware IP is involved.
 
 ## Timing at 4 Mbaud (10 bits per byte on the wire)
-Request: 3606 B → 9.0 ms. Reply: 29 B → 0.07 ms. Loopback reply: 3609 B → 9.0 ms.
+Request: 3606 B → 9.0 ms. Reply: 31 B → 0.08 ms. Loopback reply: 3609 B → 9.0 ms.

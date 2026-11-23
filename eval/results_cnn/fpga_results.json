@@ -1,0 +1,160 @@
+{
+  "conditions": {
+    "port": "/dev/ttyUSB1",
+    "baud": 4000000,
+    "frame": "8N1",
+    "n_images": 12000,
+    "request_bytes": 3606,
+    "reply_bytes": 31,
+    "pl_clock_mhz": 100.0,
+    "timer": "A9 global timer (CPU/2 = 325 MHz), read directly, 1 us resolution in the reply",
+    "protocol": "stop-and-wait: one frame in flight",
+    "input": "60x60 uint8 grayscale image (raw pixels); Q8.8 conversion on the PS",
+    "class_order": "circle, elipse, fig_eight, rectangle, square, triangle (as the SNN)"
+  },
+  "comm_errors": 0,
+  "fpga": {
+    "n": 12000,
+    "accuracy": 0.9993333333333333,
+    "per_class": {
+      "circle": {
+        "support": 2000,
+        "recall": 1.0,
+        "precision": 1.0,
+        "f1": 1.0
+      },
+      "elipse": {
+        "support": 2000,
+        "recall": 0.999,
+        "precision": 0.9985007496251874,
+        "f1": 0.9987503124218946
+      },
+      "fig_eight": {
+        "support": 2000,
+        "recall": 0.9995,
+        "precision": 0.9995,
+        "f1": 0.9995
+      },
+      "rectangle": {
+        "support": 2000,
+        "recall": 0.9985,
+        "precision": 1.0,
+        "f1": 0.9992494370778084
+      },
+      "square": {
+        "support": 2000,
+        "recall": 1.0,
+        "precision": 0.9985022466300549,
+        "f1": 0.9992505620784412
+      },
+      "triangle": {
+        "support": 2000,
+        "recall": 0.999,
+        "precision": 0.9994997498749375,
+        "f1": 0.9992498124531133
+      }
+    },
+    "confusion": [
+      [
+        2000,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1998,
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        1999,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1997,
+        3,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2000,
+        0
+      ],
+      [
+        0,
+        2,
+        0,
+        0,
+        0,
+        1998
+      ]
+    ]
+  },
+  "fpga_vs_float_model": {
+    "prediction_agreement": 1.0,
+    "logits_max_abs_error": 0.2522544860839844,
+    "logits_mean_abs_error": 0.03394785150885582,
+    "note": "the CNN uses fixed point (ap_fixed), so logits are close to the float model but not bit-identical"
+  },
+  "latency": {
+    "fpga_compute_us": {
+      "n": 12000,
+      "mean": 1402.0416666666667,
+      "std": 0.19982631347140872,
+      "median": 1402.0,
+      "p5": 1402.0,
+      "p95": 1402.0,
+      "p99": 1403.0000000000002,
+      "min": 1402.0,
+      "max": 1403.0000000000002
+    },
+    "host_write_us": {
+      "n": 12000,
+      "mean": 10271.123834992219,
+      "std": 584.5719999650089,
+      "median": 10280.429999511398,
+      "p5": 9313.89465031316,
+      "p95": 11165.19019960833,
+      "p99": 11880.746529150203,
+      "min": 9064.541000043391,
+      "max": 12317.898001128924
+    },
+    "host_round_trip_us": {
+      "n": 12000,
+      "mean": 15854.982143420482,
+      "std": 370.63639944136816,
+      "median": 15853.26599979453,
+      "p5": 15176.359349243285,
+      "p95": 16498.874700027955,
+      "p99": 16752.965259820485,
+      "min": 13815.672999044182,
+      "max": 20256.78800055175
+    },
+    "uart_wire_time_us": {
+      "request": 9015.0,
+      "reply": 77.5,
+      "total": 9092.5
+    },
+    "non_compute_overhead_mean_us": 14452.940476753814
+  },
+  "throughput": {
+    "compute_only_inf_per_s": 713.2455645041457,
+    "end_to_end_over_uart_inf_per_s": 62.497810703318635,
+    "uart_wire_bound_inf_per_s": 109.98075336816058
+  }
+}

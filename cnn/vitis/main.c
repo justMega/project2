@@ -9,7 +9,12 @@
  *   3. converts the pixels to Q8.8 (CNN input normalisation) in a DDR buffer,
  *   4. flushes the data cache, writes the buffer address to the IP, starts it,
  *      polls ap_done and reads the prediction and 6 logits over AXI-Lite,
- *   5. sends a binary reply with prediction, logits and timing.
+ *   5. sends a binary reply with prediction, accelerator time and logits, in the
+ *      same 31-byte format as the SNN application:
+ *        0xA5 <pred> <time_us u32 LE> <6 logits i32 LE> 0x5A
+ *      pred and logits use the common class order (alphabetical, as the SNN):
+ *        0 circle, 1 elipse, 2 fig_eight, 3 rectangle, 4 square, 5 triangle
+ *      CNN logits are Q8.8 (divide by 256). pred = 0xFF means an error.
  * A loopback command (NET_ECHO) tests the UART link without any hardware IP.
  *
  * Protocol: see PROTOCOL.md (shared with the SNN application).
@@ -40,6 +45,8 @@
 #define FRAME_START_1  0x6A
 #define REPLY_START    0xA5
 #define REPLY_END      0x5A
+
+#define PRED_ERROR     0xFF          /* pred byte of an error reply          */
 
 #define NET_CNN        0x00
 #define NET_SNN        0x01
@@ -207,16 +214,26 @@ void run_snn(const uint8_t *px, result_t *r);
 #endif
 
 /* ------------------------------------------------------------------- reply */
-static void send_reply(uint8_t net, const result_t *r, uint32_t rx_us)
+/* CNN class index (training order: circle, square, fig_eight, rectangle,
+ * triangle, elipse) -> common index (alphabetical, same as the SNN).        */
+static const uint8_t CNN_TO_COMMON[N_CLASSES] = {0, 4, 2, 3, 5, 1};
+
+/* 0xA5 <pred> <time_us u32> <N_CLASSES x i32 logits> 0x5A  (31 bytes)       */
+static void send_reply(const result_t *r)
 {
+    int32_t logits[N_CLASSES] = {0};
+    uint8_t pred = PRED_ERROR;
+    uint32_t time_us = 0;
+    if (r->status == ST_OK) {
+        pred = CNN_TO_COMMON[r->pred];
+        time_us = (r->infer_ns + 500u) / 1000u;
+        for (int k = 0; k < N_CLASSES; k++)
+            logits[CNN_TO_COMMON[k]] = (int32_t)r->logits[k];   /* Q8.8, sign-extended */
+    }
     tx_byte(REPLY_START);
-    tx_byte(net);
-    tx_byte(r->status);
-    tx_byte(r->pred);
-    tx_u32(r->infer_ns);
-    tx_u32(r->prep_ns);
-    tx_u32(rx_us);
-    for (int k = 0; k < N_CLASSES; k++) tx_u16((uint16_t)r->logits[k]);
+    tx_byte(pred);
+    tx_u32(time_us);
+    for (int k = 0; k < N_CLASSES; k++) tx_u32((uint32_t)logits[k]);
     tx_byte(REPLY_END);
 }
 
@@ -267,7 +284,7 @@ int main(void)
         memset(&r, 0, sizeof(r));
         if (len != N_PIX) {
             r.status = ST_BAD_LEN;
-            send_reply(net, &r, 0);
+            send_reply(&r);
             continue;
         }
 
@@ -283,8 +300,8 @@ int main(void)
         int csum = timeout ? -1 : rx_byte_timeout(byte_timeout);
         uint32_t rx_us = ticks_to_ns(now_ticks() - t_rx0) / 1000u;
 
-        if (timeout || csum < 0) { r.status = ST_TIMEOUT;  send_reply(net, &r, rx_us); continue; }
-        if ((uint8_t)csum != sum) { r.status = ST_BAD_CSUM; send_reply(net, &r, rx_us); continue; }
+        if (timeout || csum < 0) { r.status = ST_TIMEOUT;  send_reply(&r); continue; }
+        if ((uint8_t)csum != sum) { r.status = ST_BAD_CSUM; send_reply(&r); continue; }
 
         /* ---- dispatch */
         if (net == NET_ECHO) {
@@ -302,10 +319,12 @@ int main(void)
         else {
             r.status = ST_NO_NET;
         }
-        send_reply(net, &r, rx_us);
+        send_reply(&r);
 
 #if DEBUG_PRINT
-        xil_printf("net=%d pred=%d infer=%u ns\r\n", net, r.pred, (unsigned)r.infer_ns);
+        /* prep_ns and rx_us are still measured but no longer in the reply */
+        xil_printf("net=%d status=%d pred=%d infer=%u ns prep=%u ns rx=%u us\r\n", net,
+                   r.status, r.pred, (unsigned)r.infer_ns, (unsigned)r.prep_ns, (unsigned)rx_us);
 #endif
     }
     return 0;

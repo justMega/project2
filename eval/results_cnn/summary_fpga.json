@@ -1,0 +1,10 @@
+{
+  "wall_time_s": 192.00672575499993,
+  "baud": 4000000,
+  "n_images": 12000,
+  "data": "2D_Geometric_Shapes_Dataset_test",
+  "split": "all",
+  "request_bytes": 3606,
+  "reply_bytes": 31,
+  "uart_rx_source": "theoretical wire time (not in the board reply)"
+}
