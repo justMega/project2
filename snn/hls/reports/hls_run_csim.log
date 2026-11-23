@@ -1,0 +1,130 @@
+  **** HLS Build v2026.1 6493734
+INFO: [HLS 200-2005] Using work_dir C:/Users/Bimbus/Documents/ES/project2/vitis_part/snn_component/snn_component 
+INFO: [HLS 200-2176] Writing Vitis IDE component file C:/Users/Bimbus/Documents/ES/project2/vitis_part/snn_component/snn_component/vitis-comp.json
+INFO: [HLS 200-10] Creating and opening component 'C:/Users/Bimbus/Documents/ES/project2/vitis_part/snn_component/snn_component'.
+INFO: [HLS 200-2174] Applying component config ini file hls_config.cfg
+INFO: [HLS 200-1465] Applying config ini 'syn.file=./snn_mlp.cpp' from hls_config.cfg(10)
+INFO: [HLS 200-10] Adding design file 'C:/Users/Bimbus/Documents/ES/project2/vitis_part/snn_component/snn_mlp.cpp' to the project
+INFO: [HLS 200-1465] Applying config ini 'syn.file=./fpga_weights.h' from hls_config.cfg(11)
+INFO: [HLS 200-10] Adding design file 'C:/Users/Bimbus/Documents/ES/project2/vitis_part/snn_component/fpga_weights.h' to the project
+INFO: [HLS 200-1465] Applying config ini 'tb.file=./snn_mlp_tb.cpp' from hls_config.cfg(8)
+INFO: [HLS 200-10] Adding test bench file 'C:/Users/Bimbus/Documents/ES/project2/vitis_part/snn_component/snn_mlp_tb.cpp' to the project
+INFO: [HLS 200-1465] Applying config ini 'syn.top=snn_mlp' from hls_config.cfg(9)
+INFO: [HLS 200-1465] Applying config ini 'part=xc7z020clg400-2' from hls_config.cfg(1)
+INFO: [HLS 200-1611] Setting target device to 'xc7z020-clg400-2'
+INFO: [HLS 200-1465] Applying config ini 'clock=8ns' from hls_config.cfg(6)
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 8ns.
+INFO: [HLS 200-1465] Applying config ini 'clock_uncertainty=27%' from hls_config.cfg(7)
+INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 2.16ns.
+INFO: [HLS 200-1465] Applying config ini 'package.output.format=ip_catalog' from hls_config.cfg(4)
+INFO: [HLS 200-2176] Writing Vitis IDE component file C:/Users/Bimbus/Documents/ES/project2/vitis_part/snn_component/snn_component/vitis-comp.json
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [HLS 200-2191] C-Simulation will use clang-16 as the compiler
+INFO: [HLS 200-2036] Building debug C Simulation binaries
+   Compiling ../../../../snn_mlp.cpp in debug mode
+   Generating csim.exe
+In file included from ../../../../snn_mlp.cpp:8:
+In file included from C:/AMDDesignTools/2026.1/Vitis/include\ap_int.h:10:
+In file included from C:/AMDDesignTools/2026.1/Vitis/include\etc/ap_common.h:668:
+In file included from C:/AMDDesignTools/2026.1/Vitis/include\etc/ap_private.h:68:
+In file included from C:/AMDDesignTools/2026.1/Vitis/include\hls_half.h:26:
+In file included from C:/AMDDesignTools/2026.1/Vitis/include/etc/hls_half_fpo.h:19:
+In file included from C:/AMDDesignTools/2026.1/Vitis/include\hls_fpo.h:140:
+In file included from C:/AMDDesignTools/2026.1/Vitis/include/floating_point_v7_1_bitacc_cmodel.h:150:
+C:/AMDDesignTools/2026.1/Vitis/include\gmp.h:58:9: warning: '__GMP_LIBGMP_DLL' macro redefined [-Wmacro-redefined]
+#define __GMP_LIBGMP_DLL  0
+        ^
+C:/AMDDesignTools/2026.1/Vitis/include/floating_point_v7_1_bitacc_cmodel.h:142:9: note: previous definition is here
+#define __GMP_LIBGMP_DLL 1
+        ^
+1 warning generated.
+
+Class: circle | using 10 files
+[1] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_1.txt | true=circle | pred=circle | logits=[56, -278, -2879, -335, -3, -720]
+[2] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_10.txt | true=circle | pred=circle | logits=[430, -265, -2594, -452, 108, -376]
+[3] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_100.txt | true=circle | pred=circle | logits=[541, -308, -2920, -388, 106, -675]
+[4] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_1000.txt | true=circle | pred=circle | logits=[504, -603, -3161, -220, 336, -677]
+[5] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_1001.txt | true=circle | pred=circle | logits=[430, -265, -2594, -452, 108, -376]
+[6] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_1002.txt | true=circle | pred=circle | logits=[529, -381, -2972, -463, 159, -680]
+[7] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_1003.txt | true=circle | pred=circle | logits=[459, -401, -2900, -397, -9, -693]
+[8] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_1004.txt | true=circle | pred=elipse | logits=[-94, 39, -1647, -1054, -473, 13]
+[9] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_1005.txt | true=circle | pred=circle | logits=[586, -420, -2921, -488, 134, -627]
+[10] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/circle/circle_1006.txt | true=circle | pred=circle | logits=[502, -576, -2962, -490, 160, -588]
+
+Class: elipse | using 10 files
+[11] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_1.txt | true=elipse | pred=circle | logits=[187, 149, -2352, -405, -137, -452]
+[12] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_10.txt | true=elipse | pred=elipse | logits=[-357, 599, 168, -636, -586, -149]
+[13] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_100.txt | true=elipse | pred=elipse | logits=[-319, 621, -74, -641, -574, -102]
+[14] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_1000.txt | true=elipse | pred=elipse | logits=[-200, 512, -943, -623, -514, 16]
+[15] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_1001.txt | true=elipse | pred=elipse | logits=[-1208, 360, -401, -544, -777, 41]
+[16] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_1002.txt | true=elipse | pred=elipse | logits=[-357, 599, 168, -636, -586, -149]
+[17] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_1003.txt | true=elipse | pred=elipse | logits=[-502, -120, -1774, -504, -445, -145]
+[18] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_1004.txt | true=elipse | pred=elipse | logits=[-357, 599, 168, -636, -586, -149]
+[19] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_1005.txt | true=elipse | pred=elipse | logits=[-200, 512, -943, -623, -514, 16]
+[20] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/elipse/elipse_1006.txt | true=elipse | pred=elipse | logits=[-357, 599, 168, -636, -586, -149]
+
+Class: fig_eight | using 10 files
+[21] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_1.txt | true=fig_eight | pred=fig_eight | logits=[-1955, 216, 843, -741, -1163, -78]
+[22] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_10.txt | true=fig_eight | pred=fig_eight | logits=[-2268, -1, 893, -691, -1347, -135]
+[23] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_100.txt | true=fig_eight | pred=fig_eight | logits=[-2554, -244, 946, -646, -1517, -121]
+[24] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_1000.txt | true=fig_eight | pred=fig_eight | logits=[-1955, 216, 843, -741, -1163, -78]
+[25] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_1001.txt | true=fig_eight | pred=fig_eight | logits=[-2554, -244, 946, -646, -1517, -121]
+[26] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_1002.txt | true=fig_eight | pred=fig_eight | logits=[-2094, 162, 812, -725, -1253, -149]
+[27] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_1003.txt | true=fig_eight | pred=fig_eight | logits=[-1845, 281, 740, -727, -1106, -159]
+[28] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_1004.txt | true=fig_eight | pred=fig_eight | logits=[-2554, -244, 946, -646, -1517, -121]
+[29] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_1005.txt | true=fig_eight | pred=fig_eight | logits=[-2611, -205, 895, -621, -1492, -174]
+[30] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/fig_eight/fig_eight_1006.txt | true=fig_eight | pred=fig_eight | logits=[-2554, -244, 946, -646, -1517, -121]
+
+Class: rectangle | using 10 files
+[31] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_1.txt | true=rectangle | pred=rectangle | logits=[-1717, -1147, -2069, 80, -736, -776]
+[32] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_10.txt | true=rectangle | pred=triangle | logits=[-2147, -647, -681, -107, -1116, -4]
+[33] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_100.txt | true=rectangle | pred=rectangle | logits=[-1403, -1123, -2435, -220, -576, -836]
+[34] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_1000.txt | true=rectangle | pred=rectangle | logits=[-1865, -1070, -1938, 49, -763, -488]
+[35] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_1001.txt | true=rectangle | pred=rectangle | logits=[-1952, -938, -2135, 231, -800, -894]
+[36] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_1002.txt | true=rectangle | pred=rectangle | logits=[-1302, -844, -2010, 216, -584, -729]
+[37] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_1003.txt | true=rectangle | pred=rectangle | logits=[-1483, -1056, -2149, -17, -559, -768]
+[38] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_1004.txt | true=rectangle | pred=square | logits=[-711, -767, -2655, -62, 132, -636]
+[39] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_1005.txt | true=rectangle | pred=square | logits=[-781, -941, -2864, -66, 129, -707]
+[40] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/rectangle/rectangle_1006.txt | true=rectangle | pred=square | logits=[-1049, -952, -2939, -298, -160, -753]
+
+Class: square | using 10 files
+[41] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_1.txt | true=square | pred=square | logits=[-381, -1149, -3110, -257, 355, -713]
+[42] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_10.txt | true=square | pred=circle | logits=[276, -15, -2517, -572, -52, -441]
+[43] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_100.txt | true=square | pred=square | logits=[-459, -909, -2875, -239, 222, -617]
+[44] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_1000.txt | true=square | pred=square | logits=[-221, -560, -2863, -126, 147, -683]
+[45] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_1001.txt | true=square | pred=triangle | logits=[-4, 99, -1185, -517, -200, 279]
+[46] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_1002.txt | true=square | pred=square | logits=[-381, -1149, -3110, -257, 355, -713]
+[47] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_1003.txt | true=square | pred=square | logits=[-736, -942, -2737, -268, -118, -602]
+[48] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_1004.txt | true=square | pred=triangle | logits=[-243, -27, -1858, -372, -99, -17]
+[49] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_1005.txt | true=square | pred=square | logits=[-381, -1149, -3110, -257, 355, -713]
+[50] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/square/square_1006.txt | true=square | pred=square | logits=[-381, -1149, -3110, -257, 355, -713]
+
+Class: triangle | using 10 files
+[51] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_1.txt | true=triangle | pred=triangle | logits=[-1444, -260, -963, -605, -773, 17]
+[52] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_10.txt | true=triangle | pred=elipse | logits=[-478, 411, -377, -876, -723, 202]
+[53] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_100.txt | true=triangle | pred=triangle | logits=[-1593, -290, -963, -408, -621, 222]
+[54] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_1000.txt | true=triangle | pred=triangle | logits=[-1418, -606, -1283, -244, -318, 100]
+[55] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_1001.txt | true=triangle | pred=triangle | logits=[-1397, -298, -1059, -483, -612, 171]
+[56] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_1002.txt | true=triangle | pred=triangle | logits=[-985, -208, -637, -625, -497, 260]
+[57] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_1003.txt | true=triangle | pred=triangle | logits=[-1409, -371, -1111, -558, -559, 166]
+[58] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_1004.txt | true=triangle | pred=triangle | logits=[-1536, -329, -912, -433, -646, 275]
+[59] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_1005.txt | true=triangle | pred=triangle | logits=[-1389, -767, -1162, -358, -412, 135]
+[60] C:\Users\Bimbus\Documents\ES\project2\vitis_part\snn_component\fpga_test_features/triangle/triangle_1006.txt | true=triangle | pred=triangle | logits=[-1792, -585, -811, -408, -855, 271]
+
+====================================
+Total tested: 60
+Correct: 50
+Accuracy: 83.3333%
+
+Confusion Matrix
+(rows=true, cols=pred)
+9 1 0 0 0 0 
+1 9 0 0 0 0 
+0 0 10 0 0 0 
+0 0 0 6 3 1 
+1 0 0 0 7 2 
+0 1 0 0 0 9 
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-112] Total CPU user time: 3 seconds. Total CPU system time: 4 seconds. Total elapsed time: 30.978 seconds; peak allocated memory: 161.926 MB.
+INFO: [vitis-run 60-791] Total elapsed time: 0h 0m 42s

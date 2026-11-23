@@ -11,7 +11,8 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-PY_CODE = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[1]           # repository root
+PY_CODE = ROOT / "snn" / "python"                    # snn_mlp.py and snn_mlp_model/
 sys.path.insert(0, str(PY_CODE))
 
 from snn_mlp import (
@@ -20,11 +21,11 @@ from snn_mlp import (
     spikes_to_snn_mlp_features,
 )
 
-TEST_ROOT = PY_CODE / "2D_Geometric_Shapes_Dataset_test"
-TRAIN_ROOT = PY_CODE / "2D_Geometric_Shapes_Dataset"
+TEST_ROOT = ROOT / "2D_Geometric_Shapes_Dataset_test"
+TRAIN_ROOT = ROOT / "shapes-dataset" / "2D_Geometric_Shapes_Dataset"
 EXPORT_DIR = PY_CODE / "snn_mlp_model" / "models" / "fpga_export"
 STATE_DICT = PY_CODE / "snn_mlp_model" / "models" / "snn_mlp_dict.pt"
-RESULTS_DIR = PY_CODE / "eval" / "results"
+RESULTS_DIR = ROOT / "eval" / "results"
 
 FEATURE_SCALE = 128  # features are sent as round(x * 128) int16
 LIF_THRESHOLD = 128  # WEIGHT_SCALE in fpga_weights.h
